@@ -6,7 +6,7 @@
 .hero{
     height: 100vh;
     width: 100%;
-    background-image: url(../portfolio-web/picture/img_01.JPG);
+    background-image: url(../portfolio-web/picture/home.jpeg);
     background-size: cover;
     background-position: center;
 }
@@ -256,8 +256,8 @@ h5{
 }
 .pra p{
     color: #fcfcfc;
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 12px;
+    line-height: 14px;
     margin-bottom: 25px;
 }
 .card .button{
