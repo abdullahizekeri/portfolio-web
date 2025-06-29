@@ -18,15 +18,16 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install tidy -y
-        tidy -e index.html || true  # Lint HTML, will not fail the build
+        tidy -e index.html || true  # Lint HTML
 
     - name: Archive Website Files
       run: |
-        mkdir ../artifact
-        cp -r * ../artifact
+        mkdir artifact
+        shopt -s extglob
+        cp -r !(artifact) artifact/
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: portfolio-web
-        path: ../artifact
+        path: artifact
