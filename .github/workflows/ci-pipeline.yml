@@ -1,13 +1,11 @@
-name: Portfolio Static Website CI Pipeline
+name: Portfolio Static Website CI/CD Pipeline
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,16 +16,19 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install tidy -y
-        tidy -e index.html || true  # Lint HTML
+        tidy -e index.html || true
 
-    - name: Archive Website Files
+    - name: Install Azure CLI
+      uses: azure/setup-azure@v2
+
+    - name: Deploy to Azure Blob Storage
+      env:
+        AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
+        AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
       run: |
-        mkdir artifact
-        shopt -s extglob
-        cp -r !(artifact) artifact/
+        az storage blob upload-batch \
+          --account-name $AZURE_STORAGE_ACCOUNT_NAME \
+          --account-key $AZURE_STORAGE_ACCOUNT_KEY \
+          --destination '$web' \
+          --source .
 
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: portfolio-web
-        path: artifact
