@@ -12,14 +12,9 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v4
 
-    - name: Check HTML syntax (Optional)
+    - name: Install Azure CLI
       run: |
-        sudo apt-get update
-        sudo apt-get install tidy -y
-        tidy -e index.html || true
-
-    - name: Set up Azure CLI
-      uses: azure/CLI@v1
+        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
     - name: Deploy to Azure Blob Storage
       env:
