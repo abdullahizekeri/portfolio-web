@@ -18,8 +18,8 @@ jobs:
         sudo apt-get install tidy -y
         tidy -e index.html || true
 
-    - name: Install Azure CLI
-      uses: azure/setup-azure@v2
+    - name: Set up Azure CLI
+      uses: azure/CLI@v1
 
     - name: Deploy to Azure Blob Storage
       env:
@@ -31,4 +31,3 @@ jobs:
           --account-key $AZURE_STORAGE_ACCOUNT_KEY \
           --destination '$web' \
           --source .
-
